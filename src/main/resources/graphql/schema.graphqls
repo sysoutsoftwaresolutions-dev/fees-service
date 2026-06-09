@@ -1,0 +1,28 @@
+directive @key(fields: String!) on OBJECT | INTERFACE
+directive @external on FIELD_DEFINITION
+directive @extends on OBJECT | INTERFACE
+
+type Student @key(fields: "id") @extends {
+  id: ID! @external
+  invoices: [Invoice!]!
+}
+
+type Invoice {
+  id: ID!
+  amount: Float!
+  dueDate: String!
+  status: String!
+}
+
+type Service {
+  sdl: String!
+}
+
+type Query {
+  getInvoiceDetails(invoiceId: ID!): Invoice
+  _service: Service!
+  _entities(representations: [_Any!]!): [_Entity]!
+}
+
+scalar _Any
+union _Entity = Student
